@@ -1,0 +1,6 @@
+@ReadNest_HostAddress = http://localhost:5270
+
+GET {{ReadNest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
