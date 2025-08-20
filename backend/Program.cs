@@ -11,7 +11,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString));
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -21,6 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapUserEndpoints();
 app.MapBookGenreEndpoints();
 
 app.Run();
