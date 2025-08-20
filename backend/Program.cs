@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReadNest.Data;
+using ReadNest.Repositories;
+using ReadNest.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString));
 
+builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -17,5 +20,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapBookGenreEndpoints();
 
 app.Run();
