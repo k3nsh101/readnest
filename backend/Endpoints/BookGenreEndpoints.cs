@@ -10,8 +10,8 @@ public static class BookGenreEndpoints
     {
         app.MapGet("/genres", async (IBookGenreRepository repo) =>
         {
-            var users = await repo.GetAllBookGenres();
-            return Results.Ok(users);
+            var genres = await repo.GetAllBookGenres();
+            return Results.Ok(genres);
         });
 
         app.MapPost("/genres", async (CreateBookGenreDto newGenre, IBookGenreRepository repo) =>
