@@ -1,0 +1,90 @@
+using Microsoft.EntityFrameworkCore;
+using ReadNest.Data;
+using ReadNest.Entities;
+
+namespace ReadNest.Repositories;
+
+public class BookRepository : IBookRepository
+{
+    readonly AppDbContext _appDbContext;
+
+    public BookRepository(AppDbContext context)
+    {
+        _appDbContext = context;
+    }
+
+    public async Task<List<Book>> GetAllBooks()
+    {
+        return await _appDbContext.Books
+            .Include(b => b.Genre)
+            .Include(b => b.Owner)
+            .ToListAsync();
+    }
+
+    public async Task<Book?> GetBookById(int id)
+    {
+        var book = await _appDbContext.Books
+            .Include(b => b.Genre)
+            .Include(b => b.Owner)
+            .FirstOrDefaultAsync(b => b.BookId == id);
+
+        if (book == null)
+        {
+            return null;
+        }
+
+        return book;
+    }
+
+    public async Task<Book> AddBook(Book newBook)
+    {
+        _appDbContext.Books.Add(newBook);
+        await _appDbContext.SaveChangesAsync();
+
+        return await _appDbContext.Books
+              .Include(b => b.Owner)
+              .Include(b => b.Genre)
+              .FirstAsync(b => b.BookId == newBook.BookId);
+    }
+
+    public async Task<Book?> UpdateBook(int id, Book updatedBook)
+    {
+        if (id != updatedBook.BookId)
+        {
+            return null;
+        }
+
+        var book = await _appDbContext.Books.FindAsync(id);
+
+        if (book == null)
+        {
+            return null;
+        }
+
+        book.Name = updatedBook.Name;
+        book.Author = updatedBook.Author;
+        book.TotalPages = updatedBook.TotalPages;
+        book.Status = updatedBook.Status;
+        book.Rating = updatedBook.Rating;
+        book.Remarks = updatedBook.Remarks;
+        book.OwnerId = updatedBook.OwnerId;
+        book.GenreId = updatedBook.GenreId;
+
+        await _appDbContext.SaveChangesAsync();
+        return book;
+    }
+
+    public async Task<bool> DeleteBook(int id)
+    {
+        var book = await _appDbContext.Books.FindAsync(id);
+
+        if (book == null)
+        {
+            return false;
+        }
+
+        _appDbContext.Books.Remove(book);
+        await _appDbContext.SaveChangesAsync();
+        return true;
+    }
+}

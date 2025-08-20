@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 
@@ -25,5 +26,6 @@ app.UseHttpsRedirection();
 
 app.MapUserEndpoints();
 app.MapBookGenreEndpoints();
+app.MapBookEndpoints();
 
 app.Run();
