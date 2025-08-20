@@ -19,9 +19,7 @@ public static class UserEndpoints
         app.MapPost("/users", async (CreateUserDto newUser, IUserRepository repo) =>
         {
             User user = newUser.ToEntity();
-
             var createdUser = await repo.AddUser(user);
-
             UserDto userDto = createdUser.ToDto();
 
             return Results.Created($"/users/{userDto.UserId}", userDto);
