@@ -13,6 +13,7 @@ public static class BookMapping
             Author = book.Author,
             TotalPages = book.TotalPages,
             GenreId = book.GenreId,
+            Status = ReadStatus.Unread,
             Owned = !book.Burrowed
         };
     }
