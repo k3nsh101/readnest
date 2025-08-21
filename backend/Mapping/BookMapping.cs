@@ -13,12 +13,13 @@ public static class BookMapping
             Author = book.Author,
             TotalPages = book.TotalPages,
             GenreId = book.GenreId,
+            Owned = !book.Burrowed
         };
     }
 
     public static Book ToUpdateEntity(this UpdateBookDto book)
     {
-        return new Book ()
+        return new Book()
         {
             BookId = book.BookId,
             Name = book.Name,
@@ -27,7 +28,8 @@ public static class BookMapping
             Status = book.Status,
             Rating = book.Rating,
             Remarks = book.Remarks,
-            GenreId = book.GenreId
+            GenreId = book.GenreId,
+            Owned = !book.Burrowed,
         };
     }
 
@@ -41,7 +43,8 @@ public static class BookMapping
             book.Rating,
             book.Status,
             book.Remarks,
-            book.Genre!.ToDto()
+            book.Genre!.ToDto(),
+            book.Owned
         );
     }
 

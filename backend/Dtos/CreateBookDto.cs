@@ -4,5 +4,6 @@ public record CreateBookDto(
     string Name,
     string Author,
     int TotalPages,
-    int GenreId
+    int GenreId,
+    bool Burrowed
 );

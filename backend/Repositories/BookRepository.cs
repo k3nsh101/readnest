@@ -65,6 +65,7 @@ public class BookRepository : IBookRepository
         book.Rating = updatedBook.Rating;
         book.Remarks = updatedBook.Remarks;
         book.GenreId = updatedBook.GenreId;
+        book.Owned = updatedBook.Owned;
 
         await _appDbContext.SaveChangesAsync();
         return book;

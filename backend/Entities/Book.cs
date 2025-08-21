@@ -10,6 +10,7 @@ public class Book
     public ReadStatus Status { get; set; } = ReadStatus.Unread;
     public int? Rating { get; set; }
     public string? Remarks { get; set; }
+    public bool Owned { get; set; } = true;
 
     public BookGenre? Genre { get; set; }
 }
