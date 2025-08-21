@@ -8,6 +8,5 @@ public record BookDto(
     int? Rating,
     ReadStatus Status,
     string? Remarks,
-    BookGenreDto Genre,
-    UserDto Owner
+    BookGenreDto Genre
 );

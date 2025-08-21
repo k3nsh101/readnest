@@ -4,6 +4,5 @@ public record CreateBookDto(
     string Name,
     string Author,
     int TotalPages,
-    int GenreId,
-    int OwnerId
+    int GenreId
 );

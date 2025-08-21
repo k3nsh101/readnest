@@ -13,7 +13,6 @@ public static class BookMapping
             Author = book.Author,
             TotalPages = book.TotalPages,
             GenreId = book.GenreId,
-            OwnerId = book.OwnerId
         };
     }
 
@@ -28,7 +27,6 @@ public static class BookMapping
             Status = book.Status,
             Rating = book.Rating,
             Remarks = book.Remarks,
-            OwnerId = book.OwnerId,
             GenreId = book.GenreId
         };
     }
@@ -43,8 +41,7 @@ public static class BookMapping
             book.Rating,
             book.Status,
             book.Remarks,
-            book.Genre!.ToDto(),
-            book.Owner!.ToDto()
+            book.Genre!.ToDto()
         );
     }
 

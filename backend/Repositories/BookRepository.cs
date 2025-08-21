@@ -17,7 +17,6 @@ public class BookRepository : IBookRepository
     {
         return await _appDbContext.Books
             .Include(b => b.Genre)
-            .Include(b => b.Owner)
             .ToListAsync();
     }
 
@@ -25,7 +24,6 @@ public class BookRepository : IBookRepository
     {
         var book = await _appDbContext.Books
             .Include(b => b.Genre)
-            .Include(b => b.Owner)
             .FirstOrDefaultAsync(b => b.BookId == id);
 
         if (book == null)
@@ -42,7 +40,6 @@ public class BookRepository : IBookRepository
         await _appDbContext.SaveChangesAsync();
 
         return await _appDbContext.Books
-              .Include(b => b.Owner)
               .Include(b => b.Genre)
               .FirstAsync(b => b.BookId == newBook.BookId);
     }
@@ -67,7 +64,6 @@ public class BookRepository : IBookRepository
         book.Status = updatedBook.Status;
         book.Rating = updatedBook.Rating;
         book.Remarks = updatedBook.Remarks;
-        book.OwnerId = updatedBook.OwnerId;
         book.GenreId = updatedBook.GenreId;
 
         await _appDbContext.SaveChangesAsync();
