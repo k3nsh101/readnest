@@ -1,9 +1,14 @@
 import BooksList from "./bookList";
-import { Book } from "./interfaces";
-import { fetchBooks } from "./page.server";
+import { BookSummary } from "./interfaces";
 
 export default async function BooksPage() {
-  const books: Book[] = await fetchBooks();
+  const books: BookSummary[] = await fetchBooks();
 
   return <BooksList books={books} />;
+}
+
+async function fetchBooks(): Promise<BookSummary[]> {
+  const res = await fetch(`${process.env.BACKEND_API_BASE_URL}/books`);
+  if (!res.ok) throw new Error("Failed to fetch books");
+  return res.json();
 }
