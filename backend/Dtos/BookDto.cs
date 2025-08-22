@@ -9,5 +9,6 @@ public record BookDto(
     ReadStatus Status,
     string? Remarks,
     BookGenreDto Genre,
-    bool Owned
+    bool Owned,
+    string? CoverUrl
 );

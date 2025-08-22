@@ -5,5 +5,6 @@ public record CreateBookDto(
     string Author,
     int TotalPages,
     int GenreId,
-    bool Burrowed
+    bool Burrowed,
+    string? CoverUrl
 );

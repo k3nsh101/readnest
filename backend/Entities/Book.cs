@@ -11,6 +11,7 @@ public class Book
     public int? Rating { get; set; }
     public string? Remarks { get; set; }
     public bool Owned { get; set; } = true;
+    public string? CoverUrl { get; set; }
 
     public BookGenre? Genre { get; set; }
 }

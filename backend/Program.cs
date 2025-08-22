@@ -16,6 +16,7 @@ builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
+app.UseStaticFiles();
 
 if (app.Environment.IsDevelopment())
 {

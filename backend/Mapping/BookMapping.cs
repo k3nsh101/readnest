@@ -14,7 +14,8 @@ public static class BookMapping
             TotalPages = book.TotalPages,
             GenreId = book.GenreId,
             Status = ReadStatus.Unread,
-            Owned = !book.Burrowed
+            Owned = !book.Burrowed,
+            CoverUrl = book.CoverUrl
         };
     }
 
@@ -31,6 +32,7 @@ public static class BookMapping
             Remarks = book.Remarks,
             GenreId = book.GenreId,
             Owned = !book.Burrowed,
+            CoverUrl = book.CoverUrl,
         };
     }
 
@@ -45,7 +47,8 @@ public static class BookMapping
             book.Status,
             book.Remarks,
             book.Genre!.ToDto(),
-            book.Owned
+            book.Owned,
+            $"/book-covers/{book.CoverUrl}"
         );
     }
 
