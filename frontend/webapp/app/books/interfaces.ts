@@ -11,4 +11,5 @@ export interface Book {
   completed: boolean;
   rating?: number;
   remarks?: string;
+  coverUrl: string | null;
 }
