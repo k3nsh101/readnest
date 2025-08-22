@@ -36,7 +36,19 @@ public static class BookMapping
         };
     }
 
-    public static BookDto ToDto(this Book book)
+    public static BooksDto ToBooksDto(this Book book)
+    {
+        return new(
+            book.BookId,
+            book.Name,
+            book.Status,
+            book.Genre!.ToDto(),
+            book.Owned,
+            $"/book-covers/{book.CoverUrl}"
+        );
+    }
+
+    public static BookDto ToBookDto(this Book book)
     {
         return new(
             book.BookId,

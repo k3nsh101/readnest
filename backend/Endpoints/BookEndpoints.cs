@@ -13,13 +13,13 @@ public static class BookEndpoints
         {
             var books = await repo.GetAllBooks();
 
-            return Results.Ok(books.Select(BookMapping.ToDto));
+            return Results.Ok(books.Select(BookMapping.ToBooksDto));
         });
 
         app.MapGet("/books/{id}", async (int id, IBookRepository repo) =>
         {
             var book = await repo.GetBookById(id);
-            return book is not null ? Results.Ok(book.ToDto()) : Results.NotFound();
+            return book is not null ? Results.Ok(book.ToBookDto()) : Results.NotFound();
         });
 
         app.MapPost("/books/cover", async (HttpRequest request, IWebHostEnvironment env) =>
@@ -49,7 +49,7 @@ public static class BookEndpoints
         {
             Book book = newBook.ToEntity();
             var createdBook = await repo.AddBook(book);
-            BookDto bookDto = createdBook.ToDto();
+            BookDto bookDto = createdBook.ToBookDto();
 
             return Results.Created($"/books/{createdBook.BookId}", bookDto);
         });
