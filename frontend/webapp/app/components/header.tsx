@@ -2,9 +2,9 @@ import { Bell, User } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="flex justify-end items-center px-6 py-3 shadow-sm">
+    <header className="flex justify-end items-center px-6 py-3">
       <div className="flex items-center space-x-6">
-        <div className="flex items-center space-x-2 cursor-pointer hover:bg-gray-100 p-2 rounded">
+        <div className="flex items-center space-x-2 cursor-pointer p-2 rounded">
           <User className="w-6 h-6 text-gray-600" />
           <span className="font-medium">Samudu</span>
         </div>
