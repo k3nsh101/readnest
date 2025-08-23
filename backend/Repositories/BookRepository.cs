@@ -67,7 +67,6 @@ public class BookRepository : IBookRepository
         book.Remarks = updatedBook.Remarks;
         book.GenreId = updatedBook.GenreId;
         book.Owned = updatedBook.Owned;
-        book.CoverUrl = updatedBook.CoverUrl;
 
         await _appDbContext.SaveChangesAsync();
         return book;
@@ -85,6 +84,20 @@ public class BookRepository : IBookRepository
         book.PagesRead = book.TotalPages;
         await _appDbContext.SaveChangesAsync();
 
+        return true;
+    }
+
+    public async Task<bool> UpdateCoverUrl(int id, string url)
+    {
+        var book = await _appDbContext.Books.FindAsync(id);
+
+        if (book == null)
+        {
+            return false;
+        }
+
+        book.CoverUrl = url;
+        await _appDbContext.SaveChangesAsync();
         return true;
     }
 

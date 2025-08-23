@@ -33,7 +33,6 @@ public static class BookMapping
             Remarks = book.Remarks,
             GenreId = book.GenreId,
             Owned = !book.Burrowed,
-            CoverUrl = book.CoverUrl,
         };
     }
 

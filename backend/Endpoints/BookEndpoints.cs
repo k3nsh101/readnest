@@ -59,6 +59,21 @@ public static class BookEndpoints
             return updatedBook is not null ? Results.NoContent() : Results.NotFound();
         });
 
+        app.MapPut("/books/{id}/cover", async (int id, HttpRequest request, IWebHostEnvironment env, IBookRepository repo) =>
+        {
+            var form = await request.ReadFormAsync();
+            var file = form.Files.GetFile("coverUrl");
+
+            if (file == null || file.Length == 0)
+                return Results.BadRequest("No file uploaded");
+
+            var relativeUrl = await BookUtils.SaveBookCover(file, env);
+
+            var success = await repo.UpdateCoverUrl(id, relativeUrl);
+
+            return success ? Results.NoContent() : Results.NotFound();
+        });
+
         app.MapDelete("/books/{id}", async (int id, IBookRepository repo) =>
         {
             var success = await repo.DeleteBook(id);
