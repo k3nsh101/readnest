@@ -8,22 +8,24 @@ namespace ReadNest.Endpoints;
 
 public static class BookEndpoints
 {
-    public static void MapBookEndpoints(this WebApplication app)
+    public static void MapBookEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/books", async (IBookRepository repo) =>
+        var bookGroup = app.MapGroup("books");
+
+        bookGroup.MapGet("/", async (IBookRepository repo) =>
         {
             var books = await repo.GetAllBooks();
 
-            return Results.Ok(books.Select(BookMapping.ToBooksDto));
+            return Results.Ok(books.Select(BookMapping.ToBookSummaryDto));
         });
 
-        app.MapGet("/books/{id}", async (int id, IBookRepository repo) =>
+        bookGroup.MapGet("/{id}", async (Guid id, IBookRepository repo) =>
         {
             var book = await repo.GetBookById(id);
-            return book is not null ? Results.Ok(book.ToBookDto()) : Results.NotFound();
-        });
+            return book is not null ? Results.Ok(book.ToBookDetailsDto()) : Results.NotFound();
+        }).WithName("GetBookById");
 
-        app.MapPost("/books/cover", async (HttpRequest request, IWebHostEnvironment env) =>
+        bookGroup.MapPost("/cover", async (HttpRequest request, IWebHostEnvironment env) =>
         {
             var form = await request.ReadFormAsync();
             var file = form.Files.GetFile("coverUrl");
@@ -35,31 +37,29 @@ public static class BookEndpoints
             return Results.Ok(new { url = relativeUrl });
         });
 
-        app.MapPost("/books", async (CreateBookDto newBook, IBookRepository repo) =>
+        bookGroup.MapPost("/", async (CreateBookDto newBook, IBookRepository repo) =>
         {
             Book book = newBook.ToEntity();
             var createdBook = await repo.AddBook(book);
-            BookDto bookDto = createdBook.ToBookDto();
+            BookDetailsDto bookDto = createdBook.ToBookDetailsDto();
 
-            return Results.Created($"/books/{createdBook.BookId}", bookDto);
+            return Results.CreatedAtRoute("GetBookById", new { id = bookDto.BookId }, bookDto);
         });
 
-        app.MapPost("/books/{id}/complete", async (int id, IBookRepository repo) =>
+        bookGroup.MapPost("/{id}/complete", async (Guid id, IBookRepository repo) =>
         {
             var success = await repo.MarkRead(id);
 
             return success ? Results.NoContent() : Results.NotFound();
         });
 
-        app.MapPut("/books", async (UpdateBookDto changedBook, IBookRepository repo) =>
+        bookGroup.MapPut("/{id}", async (Guid id, UpdateBookDto updatedBook, IBookRepository repo) =>
         {
-            Book book = changedBook.ToUpdateEntity();
-
-            var updatedBook = await repo.UpdateBook(changedBook.BookId, book);
-            return updatedBook is not null ? Results.NoContent() : Results.NotFound();
+            var success = await repo.UpdateBook(id, updatedBook);
+            return success ? Results.NoContent() : Results.NotFound();
         });
 
-        app.MapPut("/books/{id}/cover", async (int id, HttpRequest request, IWebHostEnvironment env, IBookRepository repo) =>
+        bookGroup.MapPut("/{id}/cover", async (Guid id, HttpRequest request, IWebHostEnvironment env, IBookRepository repo) =>
         {
             var form = await request.ReadFormAsync();
             var file = form.Files.GetFile("coverUrl");
@@ -74,7 +74,7 @@ public static class BookEndpoints
             return success ? Results.NoContent() : Results.NotFound();
         });
 
-        app.MapDelete("/books/{id}", async (int id, IBookRepository repo) =>
+        bookGroup.MapDelete("/{id}", async (Guid id, IBookRepository repo) =>
         {
             var success = await repo.DeleteBook(id);
             return success ? Results.NoContent() : Results.NotFound();

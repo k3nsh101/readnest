@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReadNest.Data;
 using ReadNest.Entities;
+using ReadNest.Dtos;
 
 namespace ReadNest.Repositories;
 
@@ -20,7 +21,7 @@ public class BookRepository : IBookRepository
             .ToListAsync();
     }
 
-    public async Task<Book?> GetBookById(int id)
+    public async Task<Book?> GetBookById(Guid id)
     {
         var book = await _appDbContext.Books
             .Include(b => b.Genre)
@@ -44,21 +45,16 @@ public class BookRepository : IBookRepository
               .FirstAsync(b => b.BookId == newBook.BookId);
     }
 
-    public async Task<Book?> UpdateBook(int id, Book updatedBook)
+    public async Task<bool> UpdateBook(Guid id, UpdateBookDto updatedBook)
     {
-        if (id != updatedBook.BookId)
-        {
-            return null;
-        }
-
         var book = await _appDbContext.Books.FindAsync(id);
 
         if (book == null)
         {
-            return null;
+            return false;
         }
 
-        book.Name = updatedBook.Name;
+        book.Title = updatedBook.Title;
         book.Author = updatedBook.Author;
         book.TotalPages = updatedBook.TotalPages;
         book.PagesRead = updatedBook.PagesRead;
@@ -66,13 +62,13 @@ public class BookRepository : IBookRepository
         book.Rating = updatedBook.Rating;
         book.Remarks = updatedBook.Remarks;
         book.GenreId = updatedBook.GenreId;
-        book.Owned = updatedBook.Owned;
+        book.Owned = !updatedBook.Borrowed;
 
         await _appDbContext.SaveChangesAsync();
-        return book;
+        return true;
     }
 
-    public async Task<bool> MarkRead(int id)
+    public async Task<bool> MarkRead(Guid id)
     {
         var book = await _appDbContext.Books.FindAsync(id);
         if (book == null)
@@ -87,7 +83,7 @@ public class BookRepository : IBookRepository
         return true;
     }
 
-    public async Task<bool> UpdateCoverUrl(int id, string url)
+    public async Task<bool> UpdateCoverUrl(Guid id, string url)
     {
         var book = await _appDbContext.Books.FindAsync(id);
 
@@ -101,7 +97,7 @@ public class BookRepository : IBookRepository
         return true;
     }
 
-    public async Task<bool> DeleteBook(int id)
+    public async Task<bool> DeleteBook(Guid id)
     {
         var book = await _appDbContext.Books.FindAsync(id);
 

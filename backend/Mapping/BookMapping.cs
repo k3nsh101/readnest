@@ -9,7 +9,8 @@ public static class BookMapping
     {
         return new Book()
         {
-            Name = book.Name,
+            BookId = new Guid(),
+            Title = book.Title,
             Author = book.Author,
             TotalPages = book.TotalPages,
             GenreId = book.GenreId,
@@ -19,49 +20,36 @@ public static class BookMapping
         };
     }
 
-    public static Book ToUpdateEntity(this UpdateBookDto book)
+    public static BookSummaryDto ToBookSummaryDto(this Book book)
     {
-        return new Book()
-        {
-            BookId = book.BookId,
-            Name = book.Name,
-            Author = book.Author,
-            TotalPages = book.TotalPages,
-            PagesRead = book.PagesRead,
-            Status = book.Status,
-            Rating = book.Rating,
-            Remarks = book.Remarks,
-            GenreId = book.GenreId,
-            Owned = !book.Borrowed,
-        };
-    }
+        var coverUrl = book.CoverUrl is not null ? $"/book-covers/{book.CoverUrl}" : null;
 
-    public static BooksDto ToBooksDto(this Book book)
-    {
         return new(
             book.BookId,
-            book.Name,
+            book.Title,
             book.Status,
             book.Genre!.ToDto(),
             book.Owned,
-            $"/book-covers/{book.CoverUrl}"
+            coverUrl
         );
     }
 
-    public static BookDto ToBookDto(this Book book)
+    public static BookDetailsDto ToBookDetailsDto(this Book book)
     {
+        var coverUrl = book.CoverUrl is not null ? $"/book-covers/{book.CoverUrl}" : null;
+
         return new(
             book.BookId,
-            book.Name,
+            book.Title,
             book.Author,
             book.TotalPages,
             book.PagesRead,
             book.Rating,
             book.Status,
             book.Remarks,
-            book.Genre!.ToDto(),
+            book.Genre!.Name,
             book.Owned,
-            $"/book-covers/{book.CoverUrl}"
+            coverUrl
         );
     }
 

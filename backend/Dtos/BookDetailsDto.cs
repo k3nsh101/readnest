@@ -1,15 +1,15 @@
 namespace ReadNest.Dtos;
 
-public record BookDto(
-    int BookId,
-    string Name,
+public record BookDetailsDto(
+    Guid BookId,
+    string Title,
     string Author,
     int TotalPages,
     int PagesRead,
     int? Rating,
     ReadStatus Status,
     string? Remarks,
-    BookGenreDto Genre,
+    string Genre,
     bool Owned,
     string? CoverUrl
 );

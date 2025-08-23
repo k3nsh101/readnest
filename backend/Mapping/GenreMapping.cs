@@ -9,6 +9,7 @@ public static class BookGenreMapping
     {
         return new BookGenre()
         {
+            GenreId = new Guid(),
             Name = genre.Name
         };
     }

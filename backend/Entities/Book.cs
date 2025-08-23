@@ -2,9 +2,9 @@ namespace ReadNest.Entities;
 
 public class Book
 {
-    public int BookId { get; set; }
-    public required string Name { get; set; }
-    public required int GenreId { get; set; }
+    public required Guid BookId { get; set; }
+    public required string Title { get; set; }
+    public required Guid GenreId { get; set; }
     public required string Author { get; set; }
     public required int TotalPages { get; set; }
     public ReadStatus Status { get; set; } = ReadStatus.Unread;

@@ -1,6 +1,6 @@
 namespace ReadNest.Dtos;
 
 public record UpdateBookGenreDto(
-    int GenreId,
+    Guid GenreId,
     string Name
 );

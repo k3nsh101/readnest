@@ -25,22 +25,7 @@ public class BookGenreRepository : IBookGenreRepository
         return newBookGenre;
     }
 
-    public async Task<BookGenre?> UpdateBookGenre(BookGenre updatedBookGenre)
-    {
-        var bookGenre = await _appDbContext.BookGenres.FindAsync(updatedBookGenre.GenreId);
-
-        if (bookGenre == null)
-        {
-            return null;
-        }
-
-        bookGenre.Name = updatedBookGenre.Name;
-
-        await _appDbContext.SaveChangesAsync();
-        return bookGenre;
-    }
-
-    public async Task<bool> DeleteBookGenre(int id)
+    public async Task<bool> DeleteBookGenre(Guid id)
     {
         var bookGenre = await _appDbContext.BookGenres.FindAsync(id);
 

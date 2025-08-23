@@ -1,14 +1,15 @@
 using ReadNest.Entities;
+using ReadNest.Dtos;
 
 namespace ReadNest.Repositories;
 
 public interface IBookRepository
 {
     Task<List<Book>> GetAllBooks();
-    Task<Book?> GetBookById(int id);
+    Task<Book?> GetBookById(Guid id);
     Task<Book> AddBook(Book book);
-    Task<Book?> UpdateBook(int id, Book updateBook);
-    Task<bool> UpdateCoverUrl(int id, string url);
-    Task<bool> MarkRead(int id);
-    Task<bool> DeleteBook(int id);
+    Task<bool> UpdateBook(Guid id, UpdateBookDto updatedBook);
+    Task<bool> UpdateCoverUrl(Guid id, string url);
+    Task<bool> MarkRead(Guid id);
+    Task<bool> DeleteBook(Guid id);
 }

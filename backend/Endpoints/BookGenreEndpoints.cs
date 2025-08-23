@@ -1,43 +1,30 @@
 using ReadNest.Repositories;
 using ReadNest.Entities;
 using ReadNest.Dtos;
+using ReadNest.Mapping;
 
 namespace ReadNest.Endpoints;
 
 public static class BookGenreEndpoints
 {
-    public static void MapBookGenreEndpoints(this WebApplication app)
+    public static void MapBookGenreEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/genres", async (IBookGenreRepository repo) =>
+        var genreGroup = app.MapGroup("genres");
+
+        genreGroup.MapGet("/", async (IBookGenreRepository repo) =>
         {
             var genres = await repo.GetAllBookGenres();
             return Results.Ok(genres);
         });
 
-        app.MapPost("/genres", async (CreateBookGenreDto newGenre, IBookGenreRepository repo) =>
+        genreGroup.MapPost("/", async (CreateBookGenreDto newGenre, IBookGenreRepository repo) =>
         {
-            BookGenre genre = new()
-            {
-                Name = newGenre.Name
-            };
-
+            BookGenre genre = newGenre.ToEntity();
             var createdGenre = await repo.AddBookGenre(genre);
             return Results.Created($"/genres/{createdGenre.GenreId}", createdGenre);
         });
 
-        app.MapPut("/genres", async (UpdateBookGenreDto changedGenre, IBookGenreRepository repo) =>
-        {
-            BookGenre genre = new()
-            {
-                GenreId = changedGenre.GenreId,
-                Name = changedGenre.Name
-            };
-
-            var updatedGenre = await repo.UpdateBookGenre(genre);
-            return updatedGenre is not null ? Results.NoContent() : Results.NotFound();
-        });
-
-        app.MapDelete("/genres/{id}", async (int id, IBookGenreRepository repo) =>
+        genreGroup.MapDelete("/{id}", async (Guid id, IBookGenreRepository repo) =>
         {
             var success = await repo.DeleteBookGenre(id);
             return success ? Results.NoContent() : Results.NotFound();

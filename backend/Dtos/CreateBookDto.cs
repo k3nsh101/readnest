@@ -1,10 +1,10 @@
 namespace ReadNest.Dtos;
 
 public record CreateBookDto(
-    string Name,
+    string Title,
     string Author,
     int TotalPages,
-    int GenreId,
+    Guid GenreId,
     bool Borrowed,
     string? CoverUrl
 );

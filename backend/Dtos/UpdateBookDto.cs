@@ -1,15 +1,14 @@
 namespace ReadNest.Dtos;
 
 public record UpdateBookDto(
-    int BookId,
-    string Name,
+    string Title,
     string Author,
     int TotalPages,
     int PagesRead,
     ReadStatus Status,
     int? Rating,
     string? Remarks,
-    int GenreId,
+    Guid GenreId,
     bool Borrowed,
     string? CoverUrl
 );
