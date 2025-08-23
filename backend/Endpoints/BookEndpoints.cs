@@ -2,6 +2,7 @@ using ReadNest.Repositories;
 using ReadNest.Entities;
 using ReadNest.Dtos;
 using ReadNest.Mapping;
+using ReadNest.Utils;
 
 namespace ReadNest.Endpoints;
 
@@ -30,18 +31,7 @@ public static class BookEndpoints
             if (file == null || file.Length == 0)
                 return Results.BadRequest("No file uploaded");
 
-            var uploadsDir = Path.Combine(env.WebRootPath ?? "wwwroot", "book-covers");
-            Directory.CreateDirectory(uploadsDir);
-
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-            var filePath = Path.Combine(uploadsDir, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            var relativeUrl = fileName;
+            var relativeUrl = await BookUtils.SaveBookCover(file, env);
             return Results.Ok(new { url = relativeUrl });
         });
 
