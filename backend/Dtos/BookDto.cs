@@ -5,6 +5,7 @@ public record BookDto(
     string Name,
     string Author,
     int TotalPages,
+    int PagesRead,
     int? Rating,
     ReadStatus Status,
     string? Remarks,

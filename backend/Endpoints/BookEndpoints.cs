@@ -54,6 +54,13 @@ public static class BookEndpoints
             return Results.Created($"/books/{createdBook.BookId}", bookDto);
         });
 
+        app.MapPost("/books/{id}/complete", async (int id, IBookRepository repo) =>
+        {
+            var success = await repo.MarkRead(id);
+
+            return success ? Results.NoContent() : Results.NotFound();
+        });
+
         app.MapPut("/books", async (UpdateBookDto changedBook, IBookRepository repo) =>
         {
             Book book = changedBook.ToUpdateEntity();

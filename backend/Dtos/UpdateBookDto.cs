@@ -5,6 +5,7 @@ public record UpdateBookDto(
     string Name,
     string Author,
     int TotalPages,
+    int PagesRead,
     ReadStatus Status,
     int? Rating,
     string? Remarks,

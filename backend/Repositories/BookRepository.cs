@@ -61,6 +61,7 @@ public class BookRepository : IBookRepository
         book.Name = updatedBook.Name;
         book.Author = updatedBook.Author;
         book.TotalPages = updatedBook.TotalPages;
+        book.PagesRead = updatedBook.PagesRead;
         book.Status = updatedBook.Status;
         book.Rating = updatedBook.Rating;
         book.Remarks = updatedBook.Remarks;
@@ -70,6 +71,21 @@ public class BookRepository : IBookRepository
 
         await _appDbContext.SaveChangesAsync();
         return book;
+    }
+
+    public async Task<bool> MarkRead(int id)
+    {
+        var book = await _appDbContext.Books.FindAsync(id);
+        if (book == null)
+        {
+            return false;
+        }
+
+        book.Status = ReadStatus.Completed;
+        book.PagesRead = book.TotalPages;
+        await _appDbContext.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<bool> DeleteBook(int id)

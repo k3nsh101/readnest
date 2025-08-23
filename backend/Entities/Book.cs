@@ -8,6 +8,7 @@ public class Book
     public required string Author { get; set; }
     public required int TotalPages { get; set; }
     public ReadStatus Status { get; set; } = ReadStatus.Unread;
+    public int PagesRead { get; set; } = 0;
     public int? Rating { get; set; }
     public string? Remarks { get; set; }
     public bool Owned { get; set; } = true;
