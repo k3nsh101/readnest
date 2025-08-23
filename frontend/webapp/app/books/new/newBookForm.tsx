@@ -12,7 +12,7 @@ export default function NewBookForm({ genres }: NewBookProps) {
     author: "",
     genreId: "",
     totalPages: "",
-    burrowed: false,
+    borrowed: false,
   });
   const [file, setFile] = useState<File | null>();
   const [loading, setLoading] = useState(false);
@@ -89,7 +89,7 @@ export default function NewBookForm({ genres }: NewBookProps) {
             name: form.title,
             author: form.author,
             genreId: form.genreId,
-            burrowed: form.burrowed,
+            borrowed: form.borrowed,
             totalPages: form.totalPages ? Number(form.totalPages) : null,
             coverUrl,
           }),
@@ -170,12 +170,12 @@ export default function NewBookForm({ genres }: NewBookProps) {
         <div className="flex items-center space-x-2">
           <input
             type="checkbox"
-            name="burrowed"
-            checked={form.burrowed}
+            name="borrowed"
+            checked={form.borrowed}
             onChange={handleChange}
             className="h-4 w-4"
           />
-          <label>Burrowed</label>
+          <label>Borrowed</label>
         </div>
 
         <div>
