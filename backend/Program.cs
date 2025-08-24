@@ -15,6 +15,7 @@ builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBorrowedInfoRepository, BorrowedInfoRepository>();
 builder.Services.AddScoped<ILoanedInfoRepository, LoanedInfoRepository>();
+builder.Services.AddScoped<IReadingLogRepository, ReadingLogRepository>();
 
 builder.Services.AddCors(options =>
 {
@@ -43,5 +44,6 @@ app.MapBookGenreEndpoints();
 app.MapBookEndpoints();
 app.MapBorrowedInfoEndpoints();
 app.MapLoanedInfoEndpoints();
+app.MapReadingLogEndpoints();
 
 app.Run();
