@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IBookGenreRepository, BookGenreRepository>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBorrowedInfoRepository, BorrowedInfoRepository>();
 
 builder.Services.AddCors(options =>
 {
@@ -39,5 +40,6 @@ app.UseHttpsRedirection();
 
 app.MapBookGenreEndpoints();
 app.MapBookEndpoints();
+app.MapBorrowedInfoEndpoints();
 
 app.Run();
