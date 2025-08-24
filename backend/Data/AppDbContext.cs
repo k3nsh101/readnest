@@ -12,4 +12,5 @@ public class AppDbContext : DbContext
     public DbSet<Book> Books => Set<Book>();
     public DbSet<BookGenre> BookGenres => Set<BookGenre>();
     public DbSet<BorrowedInfo> BorrowedInfo => Set<BorrowedInfo>();
+    public DbSet<LoanedInfo> LoanedInfo => Set<LoanedInfo>();
 }
