@@ -7,7 +7,7 @@ public class Book
     public required Guid GenreId { get; set; }
     public required string Author { get; set; }
     public required int TotalPages { get; set; }
-    public ReadStatus Status { get; set; } = ReadStatus.Unread;
+    public ReadStatus Status { get; set; } = ReadStatus.NotStarted;
     public int PagesRead { get; set; } = 0;
     public int? Rating { get; set; }
     public string? Remarks { get; set; }

@@ -1,6 +1,6 @@
 public enum ReadStatus
 {
-    Unread,
+    NotStarted,
     Reading,
     Completed
 }
