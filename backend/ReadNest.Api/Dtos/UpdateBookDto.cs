@@ -9,6 +9,5 @@ public record UpdateBookDto(
     int? Rating,
     string? Remarks,
     Guid GenreId,
-    bool Borrowed,
-    string? CoverUrl
+    bool Borrowed
 );
