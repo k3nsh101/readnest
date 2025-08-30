@@ -9,7 +9,7 @@ public static class LoanedInfoMapping
     {
         return new LoanedInfo()
         {
-            Id = new Guid(),
+            Id = Guid.NewGuid(),
             BookId = loanedInfo.BookId,
             BorrowerName = loanedInfo.BorrowerName,
             LoarnedDate = loanedInfo.LoanedDate,

@@ -9,7 +9,7 @@ public static class BookMapping
     {
         return new Book()
         {
-            BookId = new Guid(),
+            BookId = Guid.NewGuid(),
             Title = book.Title,
             Author = book.Author,
             TotalPages = book.TotalPages,

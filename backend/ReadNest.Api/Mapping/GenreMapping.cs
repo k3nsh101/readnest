@@ -9,7 +9,7 @@ public static class BookGenreMapping
     {
         return new BookGenre()
         {
-            GenreId = new Guid(),
+            GenreId = Guid.NewGuid(),
             Name = genre.Name
         };
     }
