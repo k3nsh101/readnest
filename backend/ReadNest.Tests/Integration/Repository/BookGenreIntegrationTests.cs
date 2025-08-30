@@ -1,45 +1,48 @@
 using Microsoft.EntityFrameworkCore;
 using ReadNest.Data;
-using ReadNest.Repositories;
 using ReadNest.Entities;
+using ReadNest.Repositories;
 
 public class BookGenreRepositoryTests
 {
-    AppDbContext GetInMemoryDbContext()
+    private AppDbContext GetInMemoryDbContext()
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+        var options = new DbContextOptionsBuilder<AppDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
-        return new AppDbContext(options);
+        var context = new AppDbContext(options);
+        context.Database.EnsureCreated();
+        return context;
     }
 
     [Fact]
-    public async Task AddBookGenre_SaveGenreToDB()
+    public async Task AddBookGenre_ShouldSaveGenre()
     {
         var context = GetInMemoryDbContext();
         var repo = new BookGenreRepository(context);
-
         var genreId = Guid.NewGuid();
-        var name = "Test Genre 1";
+        var genreName = "Fantasy";
 
         var newGenre = new BookGenre
         {
             GenreId = genreId,
-            Name = name
+            Name = genreName
         };
 
-        await repo.AddBookGenre(newGenre);
-        var createdGenre = await context.BookGenres.FirstOrDefaultAsync();
+        var result = await repo.AddBookGenre(newGenre);
+        var savedGenre = await context.BookGenres.FirstOrDefaultAsync();
 
-        Assert.NotNull(createdGenre);
-        Assert.Equal(genreId, createdGenre.GenreId);
-        Assert.Equal(name, createdGenre.Name);
+        Assert.NotNull(savedGenre);
+        Assert.Equal(genreId, savedGenre.GenreId);
+        Assert.Equal(genreName, savedGenre.Name);
+        Assert.Equal(newGenre, result);
     }
 
     [Fact]
-    public async Task GetAllGenres()
+    public async Task GetAllBookGenres_ShouldReturnAllGenres()
     {
         var context = GetInMemoryDbContext();
-
         var genre1 = new BookGenre
         {
             GenreId = Guid.NewGuid(),
@@ -49,50 +52,60 @@ public class BookGenreRepositoryTests
         var genre2 = new BookGenre
         {
             GenreId = Guid.NewGuid(),
-            Name = "Fantasy"
+            Name = "Mystery"
         };
 
-        context.BookGenres.AddRange([genre1, genre2]);
-        context.SaveChanges();
+        context.BookGenres.AddRange(genre1, genre2);
+        await context.SaveChangesAsync();
 
         var repo = new BookGenreRepository(context);
 
-        await repo.GetAllBookGenres();
-        var genres = await context.BookGenres.ToListAsync();
+        var genres = await repo.GetAllBookGenres();
 
+        Assert.Equal(2, genres.Count);
         Assert.Collection(genres,
-            b =>
+            g =>
             {
-                Assert.Equal(genre1.GenreId, b.GenreId);
-                Assert.Equal(genre1.Name, b.Name);
+                Assert.Equal(genre1.GenreId, g.GenreId);
+                Assert.Equal(genre1.Name, g.Name);
             },
-            b =>
+            g =>
             {
-                Assert.Equal(genre2.GenreId, b.GenreId);
-                Assert.Equal(genre2.Name, b.Name);
-            }
-        );
+                Assert.Equal(genre2.GenreId, g.GenreId);
+                Assert.Equal(genre2.Name, g.Name);
+            });
     }
 
     [Fact]
-    public async Task DeleteGenre()
+    public async Task DeleteBookGenre_ShouldRemoveGenre_WhenExists()
     {
         var context = GetInMemoryDbContext();
-
         var genre = new BookGenre
         {
             GenreId = Guid.NewGuid(),
-            Name = "Sci-Fi"
+            Name = "Thriller"
         };
 
         context.BookGenres.Add(genre);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
 
         var repo = new BookGenreRepository(context);
 
-        await repo.DeleteBookGenre(genre.GenreId);
-        var genres = await context.BookGenres.ToListAsync();
+        var result = await repo.DeleteBookGenre(genre.GenreId);
+        var allGenres = await context.BookGenres.ToListAsync();
 
-        Assert.Empty(genres);
+        Assert.True(result);
+        Assert.Empty(allGenres);
+    }
+
+    [Fact]
+    public async Task DeleteBookGenre_ShouldReturnFalse_WhenGenreNotFound()
+    {
+        var context = GetInMemoryDbContext();
+        var repo = new BookGenreRepository(context);
+
+        var result = await repo.DeleteBookGenre(Guid.NewGuid());
+
+        Assert.False(result);
     }
 }
