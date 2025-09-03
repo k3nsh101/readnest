@@ -1,26 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using ReadNest.Data;
 using ReadNest.Entities;
 using ReadNest.Dtos;
 using ReadNest.Repositories;
 
 public class BookRepositoryTests
 {
-    private AppDbContext GetInMemoryDbContext()
-    {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        var context = new AppDbContext(options);
-        context.Database.EnsureCreated();
-        return context;
-    }
-
     [Fact]
     public async Task AddBook_ShouldSaveBookWithRequiredProperties()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
 
         var genre = new BookGenre
         {
@@ -60,7 +48,7 @@ public class BookRepositoryTests
     [Fact]
     public async Task GetAllBooks_ShouldIncludeGenre()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var genre = new BookGenre { GenreId = Guid.NewGuid(), Name = "Sci-Fi" };
         context.BookGenres.Add(genre);
 
@@ -108,7 +96,7 @@ public class BookRepositoryTests
     [Fact]
     public async Task GetBookById_ShouldReturnBookWithGenre()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var genre = new BookGenre
         {
             GenreId = Guid.NewGuid(),
@@ -141,7 +129,7 @@ public class BookRepositoryTests
     [Fact]
     public async Task UpdateBook_ShouldModifyAllFields()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var genre = new BookGenre
         {
             GenreId = Guid.NewGuid(),
@@ -192,7 +180,7 @@ public class BookRepositoryTests
     [Fact]
     public async Task MarkRead_ShouldSetStatusCompletedAndPagesRead()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
 
         var book = new Book
         {
@@ -220,7 +208,7 @@ public class BookRepositoryTests
     [Fact]
     public async Task UpdateCoverUrl_ShouldSetCover()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var book = new Book
         {
             BookId = Guid.NewGuid(),
@@ -245,7 +233,7 @@ public class BookRepositoryTests
     [Fact]
     public async Task DeleteBook_ShouldRemoveBook()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var book = new Book
         {
             BookId = Guid.NewGuid(),

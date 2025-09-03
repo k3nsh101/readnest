@@ -1,25 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using ReadNest.Data;
 using ReadNest.Entities;
 using ReadNest.Repositories;
 
 public class BookGenreRepositoryTests
 {
-    private AppDbContext GetInMemoryDbContext()
-    {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        var context = new AppDbContext(options);
-        context.Database.EnsureCreated();
-        return context;
-    }
-
     [Fact]
     public async Task AddBookGenre_ShouldSaveGenre()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var repo = new BookGenreRepository(context);
         var genreId = Guid.NewGuid();
         var genreName = "Fantasy";
@@ -42,7 +30,7 @@ public class BookGenreRepositoryTests
     [Fact]
     public async Task GetAllBookGenres_ShouldReturnAllGenres()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var genre1 = new BookGenre
         {
             GenreId = Guid.NewGuid(),
@@ -79,7 +67,7 @@ public class BookGenreRepositoryTests
     [Fact]
     public async Task DeleteBookGenre_ShouldRemoveGenre_WhenExists()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var genre = new BookGenre
         {
             GenreId = Guid.NewGuid(),
@@ -101,7 +89,7 @@ public class BookGenreRepositoryTests
     [Fact]
     public async Task DeleteBookGenre_ShouldReturnFalse_WhenGenreNotFound()
     {
-        var context = GetInMemoryDbContext();
+        var context = CustomAppDbContext.GetInMemoryDbContext();
         var repo = new BookGenreRepository(context);
 
         var result = await repo.DeleteBookGenre(Guid.NewGuid());
