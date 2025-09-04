@@ -11,6 +11,8 @@ namespace ReadNest.Tests.Integration.Endpoint;
 public class CustomWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
 {
+    private readonly string _databaseName = Guid.NewGuid().ToString();
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
@@ -30,7 +32,7 @@ public class CustomWebApplicationFactory<TProgram>
                 services.Remove(dbConnectionDescriptor);
 
             services.AddDbContext<AppDbContext>(options =>
-                           options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+                           options.UseInMemoryDatabase(_databaseName));
         });
 
         builder.UseEnvironment("Development");
