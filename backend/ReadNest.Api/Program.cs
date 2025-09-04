@@ -47,3 +47,5 @@ app.MapLoanedInfoEndpoints();
 app.MapReadingLogEndpoints();
 
 app.Run();
+
+public partial class Program { }
