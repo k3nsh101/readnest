@@ -28,6 +28,17 @@ public class BookGenreRepositoryTests
     }
 
     [Fact]
+    public async Task GetAllBookGenres_ReturnEmptyList()
+    {
+        var context = CustomAppDbContext.GetInMemoryDbContext();
+        var repo = new BookGenreRepository(context);
+
+        var result = await repo.GetAllBookGenres();
+
+        Assert.Empty(result);
+    }
+
+    [Fact]
     public async Task GetAllBookGenres_ShouldReturnAllGenres()
     {
         var context = CustomAppDbContext.GetInMemoryDbContext();
