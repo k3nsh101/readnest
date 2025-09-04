@@ -3,6 +3,8 @@ using ReadNest.Entities;
 using ReadNest.Dtos;
 using ReadNest.Repositories;
 
+namespace ReadNest.Tests.Integration.Repo;
+
 public class BookRepositoryTests
 {
     [Fact]

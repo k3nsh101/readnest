@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ReadNest.Data;
 
+namespace ReadNest.Tests.Integration.Repo;
+
 public class CustomAppDbContext
 {
     public static AppDbContext GetInMemoryDbContext()

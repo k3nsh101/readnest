@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ReadNest.Entities;
 using ReadNest.Repositories;
 
+namespace ReadNest.Tests.Integration.Repo;
+
 public class BookGenreRepositoryTests
 {
     [Fact]
