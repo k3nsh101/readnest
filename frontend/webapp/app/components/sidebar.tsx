@@ -10,6 +10,7 @@ import {
   Settings,
   ChevronRight,
   ChevronLeft,
+  Logs,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -71,6 +72,14 @@ export default function Sidebar() {
         >
           <Layers className="w-5 h-5" />
           {!collapsed && showLabels && <span>Genres</span>}
+        </Link>
+
+        <Link
+          href="/logs"
+          className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 transition"
+        >
+          <Logs className="w-5 h-5" />
+          {!collapsed && showLabels && <span>Reading Log</span>}
         </Link>
 
         <Link
