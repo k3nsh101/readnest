@@ -9,7 +9,7 @@ public static class ReadingLogEndpoints
 {
     public static void MapReadingLogEndpoints(this IEndpointRouteBuilder app)
     {
-        var readingLogGroup = app.MapGroup("reading");
+        var readingLogGroup = app.MapGroup("reading-logs");
 
         readingLogGroup.MapGet("/", async (IReadingLogRepository repo) =>
         {
