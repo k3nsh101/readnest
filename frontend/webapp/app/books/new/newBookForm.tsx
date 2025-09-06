@@ -86,7 +86,7 @@ export default function NewBookForm({ genres }: NewBookProps) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: form.title,
+            title: form.title,
             author: form.author,
             genreId: form.genreId,
             borrowed: form.borrowed,
