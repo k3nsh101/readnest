@@ -24,7 +24,7 @@ export default function BooksList({ books }: BooksListProps) {
                 className="rounded mb-2 h-full object-fill"
               />
             )}
-            <p className="font-bold">{book.name}</p>
+            <p className="font-bold">{book.title}</p>
           </Link>
         </div>
       ))}
