@@ -18,8 +18,8 @@ export default function BooksList({ books }: BooksListProps) {
             {book.coverUrl && (
               <Image
                 src={`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}${book.coverUrl}`}
-                alt={book.name}
-                width={160}
+                alt={book.title}
+                width={170}
                 height={300}
                 className="rounded mb-2 h-full object-fill"
               />

@@ -16,7 +16,7 @@ export default async function BookDetails({
         <div className="rounded-lg overflow-hidden">
           <Image
             src={`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}${book.coverUrl}`}
-            alt={book.name}
+            alt={book.title}
             width={200}
             height={400}
             className="object-cover"
@@ -24,7 +24,7 @@ export default async function BookDetails({
         </div>
 
         <div className="flex flex-col pt-4">
-          <h1 className="text-3xl font-bold mb-2">{book.name}</h1>
+          <h1 className="text-3xl font-bold mb-2">{book.title}</h1>
           <p className="text-lg text-gray-600">{book.author}</p>
         </div>
       </div>

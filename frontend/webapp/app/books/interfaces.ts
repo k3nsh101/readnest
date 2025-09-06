@@ -2,7 +2,7 @@ import { Genre } from "./new/interfaces";
 
 export interface Book {
   bookId: number;
-  name: string;
+  title: string;
   author: string;
   genre: Genre;
   totalPages?: number;
@@ -17,7 +17,7 @@ export interface Book {
 
 export interface BookSummary {
   bookId: number;
-  name: string;
+  title: string;
   genre: Genre;
   owned: boolean;
   coverUrl: string | null;
