@@ -30,13 +30,12 @@ export default function Sidebar() {
       }}
     >
       <div className="flex justify-between">
-        <Link href="/">
-          <div
-            className={`h-16 flex items-center text-xl font-bold border-b border-gray-800
+        <Link
+          href="/"
+          className={`h-16 flex items-center text-xl font-bold border-b border-gray-800
             ${collapsed ? "pl-5 pr-2" : "px-6"}`}
-          >
-            📚 {!collapsed && showLabels && <span>&nbsp; ReadNest</span>}
-          </div>
+        >
+          📚 {!collapsed && showLabels && <span>&nbsp; ReadNest</span>}
         </Link>
 
         <div className="flex justify-end p-2">
