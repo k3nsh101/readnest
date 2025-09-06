@@ -49,6 +49,11 @@ export default function NewLogForm({ books }: BooksListProps) {
       );
 
       if (!res.ok) throw new Error("Failed to save log");
+      setForm({
+        bookId: "",
+        pagesRead: "",
+        date: "",
+      });
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     } finally {
@@ -57,7 +62,7 @@ export default function NewLogForm({ books }: BooksListProps) {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
+    <div className="p-6 max-w-150">
       <h1 className="text-2xl font-bold mb-6">Add Log</h1>
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
