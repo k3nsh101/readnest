@@ -1,7 +1,7 @@
 import { Genre } from "./new/interfaces";
 
 export interface Book {
-  bookId: number;
+  bookId: string;
   title: string;
   author: string;
   genre: Genre;
@@ -16,9 +16,13 @@ export interface Book {
 }
 
 export interface BookSummary {
-  bookId: number;
+  bookId: string;
   title: string;
   genre: Genre;
   owned: boolean;
   coverUrl: string | null;
+}
+
+export interface BooksListProps {
+  books: BookSummary[];
 }

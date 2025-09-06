@@ -1,10 +1,6 @@
 import Link from "next/link";
-import { BookSummary } from "./interfaces";
 import Image from "next/image";
-
-interface BooksListProps {
-  books: BookSummary[];
-}
+import { BooksListProps } from "./interfaces";
 
 export default function BooksList({ books }: BooksListProps) {
   if (books.length === 0)
