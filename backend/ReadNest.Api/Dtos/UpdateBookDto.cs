@@ -8,6 +8,5 @@ public record UpdateBookDto(
     ReadStatus Status,
     int? Rating,
     string? Remarks,
-    Guid GenreId,
-    bool Borrowed
+    Guid GenreId
 );
