@@ -6,6 +6,18 @@ import { Book } from "../interfaces";
 import { useState } from "react";
 import { Genre } from "../new/interfaces";
 
+enum ReadingStatus {
+  NotStarted = 0,
+  Reading = 1,
+  Completed = 2,
+}
+
+const ReadingStatusLabels: Record<ReadingStatus, string> = {
+  [ReadingStatus.NotStarted]: "Not Started",
+  [ReadingStatus.Reading]: "Reading",
+  [ReadingStatus.Completed]: "Completed",
+};
+
 export default function BookDetailsClient({ book }: { book: Book }) {
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({
@@ -19,6 +31,7 @@ export default function BookDetailsClient({ book }: { book: Book }) {
     remarks: book.remarks || "",
   });
   const [genres, setGenres] = useState<Genre[]>([]);
+  const readStatusLabel = ReadingStatusLabels[form.readStatus as ReadingStatus];
 
   const handleEditFields = async () => {
     async function getGenres(): Promise<Genre[]> {
@@ -49,11 +62,20 @@ export default function BookDetailsClient({ book }: { book: Book }) {
       author: form.author,
       totalPages: form.pageCount,
       pagesRead: form.readCount,
-      status: form.readStatus,
+      status: Number(form.readStatus),
       rating: form.rating,
       remarks: form.remarks,
       genreId: form.genre.genreId,
     };
+
+    if (
+      updatedData.status == 2 &&
+      updatedData.pagesRead != updatedData.totalPages
+    ) {
+      alert("Incompatible status and read pages");
+      return;
+    }
+
     await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/books/${book.bookId}`,
       {
@@ -136,7 +158,6 @@ export default function BookDetailsClient({ book }: { book: Book }) {
                 className="w-full text-lg text-gray-600 block p-2 border-2 border-dotted border-emerald-300 rounded-lg focus:border-dotted focus:border-emerald-300 focus:outline-none transition-shadow duration-200 focus:shadow-md"
                 required
               >
-                <option value="">Select a genre</option>
                 {genres?.map((genre) => (
                   <option key={genre.genreId} value={genre.genreId}>
                     {genre.name}
@@ -181,16 +202,22 @@ export default function BookDetailsClient({ book }: { book: Book }) {
           {isEditing ? (
             <div>
               <label className="block font-medium mb-1">Read Status</label>
-              <input
-                type="text"
-                name="author"
+              <select
+                name="readStatus"
                 value={form.readStatus}
                 onChange={handleChange}
                 className="w-full text-lg text-gray-600 block p-2 border-2 border-dotted border-emerald-300 rounded-lg focus:border-dotted focus:border-emerald-300 focus:outline-none transition-shadow duration-200 focus:shadow-md"
-              />
+                required
+              >
+                {Object.entries(ReadingStatusLabels)?.map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
             </div>
           ) : (
-            <p className="text-lg text-gray-600">{form.readStatus}</p>
+            <p className="text-lg text-gray-600">{readStatusLabel}</p>
           )}
 
           {isEditing ? (
