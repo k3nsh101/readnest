@@ -152,8 +152,8 @@ export default function BookDetailsClient({ book }: { book: Book }) {
             <div>
               <label className="block font-medium mb-1">Total Pages</label>
               <input
-                type="text"
-                name="author"
+                type="number"
+                name="pageCount"
                 value={form.pageCount}
                 onChange={handleChange}
                 className="w-full text-lg text-gray-600 block p-2 border-2 border-dotted border-emerald-300 rounded-lg focus:border-dotted focus:border-emerald-300 focus:outline-none transition-shadow duration-200 focus:shadow-md"
@@ -167,8 +167,8 @@ export default function BookDetailsClient({ book }: { book: Book }) {
             <div>
               <label className="block font-medium mb-1">Pages Read</label>
               <input
-                type="text"
-                name="author"
+                type="number"
+                name="readCount"
                 value={form.readCount}
                 onChange={handleChange}
                 className="w-full text-lg text-gray-600 block p-2 border-2 border-dotted border-emerald-300 rounded-lg focus:border-dotted focus:border-emerald-300 focus:outline-none transition-shadow duration-200 focus:shadow-md"
