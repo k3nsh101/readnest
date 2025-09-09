@@ -8,7 +8,7 @@ export interface Book {
   totalPages?: number;
   pagesRead?: number;
   owned: boolean;
-  completed: boolean;
+  status: number;
   rating?: number;
   remarks?: string;
   description?: string;
