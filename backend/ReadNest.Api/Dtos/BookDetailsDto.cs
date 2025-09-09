@@ -9,7 +9,7 @@ public record BookDetailsDto(
     int? Rating,
     ReadStatus Status,
     string? Remarks,
-    string Genre,
+    BookGenreDto Genre,
     bool Owned,
     string? CoverUrl
 );

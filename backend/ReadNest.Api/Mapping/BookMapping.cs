@@ -37,6 +37,7 @@ public static class BookMapping
     public static BookDetailsDto ToBookDetailsDto(this Book book)
     {
         var coverUrl = book.CoverUrl is not null ? $"/book-covers/{book.CoverUrl}" : null;
+        var genre = new BookGenreDto(book.Genre!.GenreId, book.Genre!.Name);
 
         return new(
             book.BookId,
@@ -47,7 +48,7 @@ public static class BookMapping
             book.Rating,
             book.Status,
             book.Remarks,
-            book.Genre!.Name,
+            genre,
             book.Owned,
             coverUrl
         );
