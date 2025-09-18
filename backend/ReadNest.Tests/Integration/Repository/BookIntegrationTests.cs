@@ -160,8 +160,7 @@ public class BookRepositoryTests
             ReadStatus.Reading,
             5,
             "Updated",
-            genre.GenreId,
-            false
+            genre.GenreId
         );
 
         var result = await repo.UpdateBook(book.BookId, dto);
