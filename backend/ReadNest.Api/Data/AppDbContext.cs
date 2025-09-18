@@ -19,4 +19,5 @@ public class AppDbContext : DbContext
     public DbSet<BorrowedInfo> BorrowedInfo => Set<BorrowedInfo>();
     public DbSet<LoanedInfo> LoanedInfo => Set<LoanedInfo>();
     public DbSet<ReadingLog> ReadingLog => Set<ReadingLog>();
+    public DbSet<Habit> Habits => Set<Habit>();
 }
