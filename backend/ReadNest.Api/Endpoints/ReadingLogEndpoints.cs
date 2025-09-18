@@ -17,6 +17,16 @@ public static class ReadingLogEndpoints
             return readingLog.Select(ReadingLogMapping.ToDto);
         });
 
+        readingLogGroup.MapGet("/{date}", async (string date, IReadingLogRepository repo) =>
+        {
+            if (!DateOnly.TryParse(date, out var parsedDate))
+                return Results.BadRequest("Invalid date format. Use yyyy-MM-dd");
+
+            var readingLog = await repo.GetReadingLogByDate(parsedDate);
+
+            return readingLog is null ? Results.NotFound() : Results.Ok(readingLog);
+        });
+
         readingLogGroup.MapPost("/", async (CreateReadingLogDto newReadingLog, IReadingLogRepository repo) =>
         {
             ReadingLog createdReadinglog = await repo.AddReadingLog(newReadingLog.ToEntity());

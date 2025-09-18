@@ -19,6 +19,11 @@ public class ReadingLogRepository : IReadingLogRepository
         return await _appDbContext.ReadingLog.Include(b => b.Book).ToListAsync();
     }
 
+    public async Task<ReadingLog?> GetReadingLogByDate(DateOnly date)
+    {
+        return await _appDbContext.ReadingLog.FirstOrDefaultAsync(log => log.Date == date);
+    }
+
     public async Task<ReadingLog> AddReadingLog(ReadingLog newReadingLog)
     {
         var book = await _appDbContext.Books.FindAsync(newReadingLog.BookId);
