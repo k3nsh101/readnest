@@ -18,6 +18,8 @@ builder.Services.AddScoped<ILoanedInfoRepository, LoanedInfoRepository>();
 builder.Services.AddScoped<IReadingLogRepository, ReadingLogRepository>();
 builder.Services.AddScoped<IHabitRepository, HabitRepository>();
 
+builder.Services.AddProblemDetails();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -40,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<GlobalExceptionMiddlware>();
 
 app.MapBookGenreEndpoints();
 app.MapBookEndpoints();
