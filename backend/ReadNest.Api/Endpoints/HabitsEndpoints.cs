@@ -1,3 +1,4 @@
+using FluentValidation;
 using ReadNest.Repositories;
 using ReadNest.Mapping;
 using ReadNest.Dtos;
@@ -23,8 +24,9 @@ public static class HabitsEndpoints
             return habit is null ? Results.NotFound() : Results.Ok(habit.ToDto());
         });
 
-        habitsGroup.MapPost("/", async (CreateHabitDto newHabit, IHabitRepository repo) =>
+        habitsGroup.MapPost("/", async (CreateHabitDto newHabit, IHabitRepository repo, IValidator<CreateHabitDto> validator) =>
         {
+            validator.ValidateAndThrow(newHabit);
             Habit habit = newHabit.ToEntity();
             var createdHabit = await repo.AddHabit(habit);
 

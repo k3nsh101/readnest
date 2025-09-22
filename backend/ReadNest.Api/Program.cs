@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 using ReadNest.Data;
 using ReadNest.Repositories;
 using ReadNest.Endpoints;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(connectionString));
