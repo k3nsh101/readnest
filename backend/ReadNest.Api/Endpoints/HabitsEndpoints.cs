@@ -28,7 +28,7 @@ public static class HabitsEndpoints
             Habit habit = newHabit.ToEntity();
             var createdHabit = await repo.AddHabit(habit);
 
-            return Results.Ok(createdHabit.ToDto());
+            return Results.Created($"/{createdHabit.Id}", createdHabit.ToDto());
         });
 
         habitsGroup.MapPut("/{id}", async (Guid id, UpdateHabitDto habit, IHabitRepository repo) =>
