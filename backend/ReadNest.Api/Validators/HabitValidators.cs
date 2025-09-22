@@ -11,18 +11,15 @@ public class CreateHabitDtoValidator : AbstractValidator<CreateHabitDto>
             .IsInEnum().WithMessage("Invalid Habit Type");
 
         RuleFor(habit => habit.HabitValue)
-            .NotEmpty();
+            .NotEmpty().WithMessage("Habit Value is required");
     }
 }
 
-public class UpdateHabitDtoValidator : AbstractValidator<CreateHabitDto>
+public class UpdateHabitDtoValidator : AbstractValidator<UpdateHabitDto>
 {
     public UpdateHabitDtoValidator()
     {
-        RuleFor(habit => habit.HabitType)
-            .IsInEnum();
-
         RuleFor(habit => habit.HabitValue)
-            .NotEmpty();
+            .NotEmpty().WithMessage("Habit Value is required");
     }
 }

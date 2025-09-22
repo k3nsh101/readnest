@@ -20,6 +20,8 @@ builder.Services.AddScoped<ILoanedInfoRepository, LoanedInfoRepository>();
 builder.Services.AddScoped<IReadingLogRepository, ReadingLogRepository>();
 builder.Services.AddScoped<IHabitRepository, HabitRepository>();
 
+builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddCors(options =>
@@ -44,8 +46,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseMiddleware<GlobalExceptionMiddlware>();
+app.UseExceptionHandler();
 
 app.MapBookGenreEndpoints();
 app.MapBookEndpoints();
