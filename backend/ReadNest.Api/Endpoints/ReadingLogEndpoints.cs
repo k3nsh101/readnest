@@ -27,9 +27,18 @@ public static class ReadingLogEndpoints
             return readingLog is null ? Results.NotFound() : Results.Ok(readingLog);
         });
 
-        readingLogGroup.MapPost("/", async (CreateReadingLogDto newReadingLog, IReadingLogRepository repo) =>
+        readingLogGroup.MapPost("/", async (CreateReadingLogDto newReadingLog, IReadingLogRepository logRepo, IBookRepository bookRepo) =>
         {
-            ReadingLog createdReadinglog = await repo.AddReadingLog(newReadingLog.ToEntity());
+            var book = await bookRepo.GetBookById(newReadingLog.BookId);
+            if (book == null)
+            {
+                return Results.BadRequest();
+
+            }
+
+            var totalPagesRead = book.PagesRead;
+            var pagesRead = newReadingLog.CurrentPage - totalPagesRead;
+            ReadingLog createdReadinglog = await logRepo.AddReadingLog(newReadingLog.ToEntity(pagesRead));
 
             return Results.Created();
         });

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function NewLogForm({ books }: BooksListProps) {
   const [form, setForm] = useState({
     bookId: "",
-    pagesRead: "",
+    currentPage: "",
     date: "",
   });
   const [loading, setLoading] = useState(false);
@@ -30,7 +30,7 @@ export default function NewLogForm({ books }: BooksListProps) {
     setLoading(true);
     setError(null);
 
-    if (!form.bookId || !form.pagesRead || !form.date) {
+    if (!form.bookId || !form.currentPage || !form.date) {
       setError("Please fill all required fields");
       setLoading(false);
       return;
@@ -44,7 +44,7 @@ export default function NewLogForm({ books }: BooksListProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             bookId: form.bookId,
-            pagesRead: form.pagesRead,
+            currentPage: form.currentPage,
             date: form.date,
           }),
         },
@@ -54,7 +54,7 @@ export default function NewLogForm({ books }: BooksListProps) {
       router.refresh();
       setForm({
         bookId: "",
-        pagesRead: "",
+        currentPage: "",
         date: "",
       });
     } catch (err: any) {
@@ -101,11 +101,11 @@ export default function NewLogForm({ books }: BooksListProps) {
         </div>
 
         <div className="flex items-center">
-          <label className="block font-medium min-w-30">Pages Read</label>
+          <label className="block font-medium min-w-30">Current Page</label>
           <input
             type="number"
-            name="pagesRead"
-            value={form.pagesRead}
+            name="currentPage"
+            value={form.currentPage}
             onChange={handleChange}
             className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required

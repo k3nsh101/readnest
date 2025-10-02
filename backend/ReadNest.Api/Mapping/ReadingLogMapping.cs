@@ -5,13 +5,13 @@ namespace ReadNest.Mapping;
 
 public static class ReadingLogMapping
 {
-    public static ReadingLog ToEntity(this CreateReadingLogDto readingLog)
+    public static ReadingLog ToEntity(this CreateReadingLogDto readingLog, int pageRead)
     {
         return new ReadingLog()
         {
             Date = readingLog.Date,
             BookId = readingLog.BookId,
-            PagesRead = readingLog.PagesRead
+            PagesRead = pageRead
         };
     }
 
