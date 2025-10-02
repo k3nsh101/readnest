@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { Genres } from "./interfaces";
+import { useRouter } from "next/navigation";
 
 export default function DeleteGenre({ genres }: Genres) {
   const [genreId, setGenreId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -38,6 +40,7 @@ export default function DeleteGenre({ genres }: Genres) {
       );
 
       if (!res.ok) throw new Error("Failed to add book genre");
+      router.refresh();
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     } finally {

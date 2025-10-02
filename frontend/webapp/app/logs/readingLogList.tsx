@@ -4,10 +4,12 @@ import Link from "next/link";
 import { ReadingLogs } from "./interfaces";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ReadingListPage({ logs }: ReadingLogs) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleDelete = async (bookId: string, date: string) => {
     setLoading(true);
@@ -33,6 +35,7 @@ export default function ReadingListPage({ logs }: ReadingLogs) {
       );
 
       if (!res.ok) throw new Error("Failed to add delete reading log");
+      router.refresh();
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     } finally {

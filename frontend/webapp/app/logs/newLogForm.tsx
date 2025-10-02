@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { BooksListProps } from "../books/interfaces";
+import { useRouter } from "next/navigation";
 
 export default function NewLogForm({ books }: BooksListProps) {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ export default function NewLogForm({ books }: BooksListProps) {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -49,6 +51,7 @@ export default function NewLogForm({ books }: BooksListProps) {
       );
 
       if (!res.ok) throw new Error("Failed to save log");
+      router.refresh();
       setForm({
         bookId: "",
         pagesRead: "",
