@@ -3,6 +3,9 @@ import { ReadingLog } from "./interfaces";
 import NewLogForm from "./newLogForm";
 import ReadingLogList from "./readingLogList";
 
+// Disable prerendering for dynamic fetch
+export const dynamic = "force-dynamic";
+
 export default async function ReadingLogsPage() {
   const books: BookSummary[] = await fetchBooks();
   const readingLogs: ReadingLog[] = await fetchReadingLogs();

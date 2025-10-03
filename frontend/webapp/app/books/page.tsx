@@ -1,6 +1,9 @@
 import BooksList from "./bookList";
 import { BookSummary } from "./interfaces";
 
+// Disable prerendering for dynamic fetch
+export const dynamic = "force-dynamic";
+
 export default async function BooksPage() {
   const books: BookSummary[] = await fetchBooks();
 

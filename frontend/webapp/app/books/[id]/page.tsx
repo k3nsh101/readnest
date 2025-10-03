@@ -13,6 +13,9 @@ export default async function BookDetails({
   return <BookDetailsClient book={book} />;
 }
 
+// Disable prerendering for dynamic fetch
+export const dynamic = "force-dynamic";
+
 async function fetchBookDetails(id: number): Promise<Book> {
   const res = await fetch(`${process.env.BACKEND_API_BASE_URL}/books/${id}`);
   if (!res.ok) throw new Error("Failed to fetch book details");
