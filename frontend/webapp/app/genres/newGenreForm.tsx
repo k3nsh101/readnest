@@ -41,8 +41,8 @@ export default function NewGenreForm() {
       if (!res.ok) throw new Error("Failed to add book genre");
 
       router.push("/books/new");
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err) {
+      if (err instanceof Error) setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

@@ -99,8 +99,8 @@ export default function NewBookForm({ genres }: NewBookProps) {
       if (!res.ok) throw new Error("Failed to add book");
 
       router.push("/books");
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err) {
+      if (err instanceof Error) setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
