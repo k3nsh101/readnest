@@ -6,7 +6,8 @@ using ReadNest.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
+                        ?? throw new InvalidOperationException("Connection string not set.");
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly, includeInternalTypes: true);
 builder.Services.AddOpenApi();
@@ -48,6 +49,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseExceptionHandler();
 
+app.MapGet("/", () => Results.Ok("Hello from API"));
 app.MapBookGenreEndpoints();
 app.MapBookEndpoints();
 app.MapBorrowedInfoEndpoints();

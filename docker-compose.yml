@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: test_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  api:
+    build: ./backend/ReadNest.Api
+    env_file:
+      - ./backend/ReadNest.Api/.env
+    ports:
+      - 5270:5270
+    depends_on:
+      - db
+
+  webapp:
+    build: ./frontend/webapp
+    ports:
+      - 3000:3000
+    env_file:
+      - ./frontend/webapp/.env.production
+    depends_on:
+      - api
+
+volumes:
+  db-data:
