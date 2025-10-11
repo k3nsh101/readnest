@@ -33,12 +33,27 @@ public static class ReadingLogEndpoints
             if (book == null)
             {
                 return Results.BadRequest();
-
             }
 
             var totalPagesRead = book.PagesRead;
             var pagesRead = newReadingLog.CurrentPage - totalPagesRead;
+
+            if (newReadingLog.CurrentPage > book.TotalPages)
+            {
+                return Results.BadRequest();
+            }
+
             ReadingLog createdReadinglog = await logRepo.AddReadingLog(newReadingLog.ToEntity(pagesRead));
+
+            if (newReadingLog.CurrentPage == book.TotalPages)
+            {
+                var readCompleteSuccess = await bookRepo.MarkRead(createdReadinglog.BookId);
+
+                if (!readCompleteSuccess)
+                {
+                    Console.WriteLine($"Failed to mark the {book.Title} as read");
+                }
+            }
 
             return Results.Created();
         });

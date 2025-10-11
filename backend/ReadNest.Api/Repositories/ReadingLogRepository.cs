@@ -76,6 +76,15 @@ public class ReadingLogRepository : IReadingLogRepository
         var book = await _appDbContext.Books.FindAsync(bookId);
         book!.PagesRead -= readingLog.PagesRead;
 
+        if (book.PagesRead == 0)
+        {
+            book.Status = ReadStatus.NotStarted;
+        }
+        else if (book.PagesRead > 0 && book.PagesRead < book.TotalPages)
+        {
+            book.Status = ReadStatus.Reading;
+        }
+
         _appDbContext.ReadingLog.Remove(readingLog);
         await _appDbContext.SaveChangesAsync();
         return true;
